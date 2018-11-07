@@ -19,19 +19,22 @@ INCLUDEPATHS= \
  -I"$(DEPSDIR)/boost_1_55_0" \
  -I"$(DEPSDIR)/db-6.0.20/build_unix" \
  -I"$(DEPSDIR)/openssl-1.0.1f/include" \
+ -I"$(DEPSDIR)/sys-root/mingw/include" \
  -I"$(DEPSDIR)"
 
 LIBPATHS= \
  -L"$(DEPSDIR)/boost_1_55_0/stage/lib" \
  -L"$(DEPSDIR)/db-6.0.20/build_unix" \
- -L"$(DEPSDIR)/openssl-1.0.1f"
+ -L"$(DEPSDIR)/openssl-1.0.1f" \
+ -L"$(DEPSDIR)/sys-root/mingw/bin" \
+ -L"$(DEPSDIR)/sys-root/mingw/lib"
 
 LIBS= \
- -l boost_system-mt \
- -l boost_filesystem-mt \
- -l boost_program_options-mt \
- -l boost_thread_win32-mt \
- -l boost_chrono-mt \
+ -l boost_system \
+ -l boost_filesystem \
+ -l boost_program_options \
+ -l boost_thread-mt \
+ -l boost_chrono \
  -l db_cxx \
  -l ssl \
  -l crypto \
