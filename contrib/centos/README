@@ -1,0 +1,3 @@
+MinGW build environment deployment stuff
+
+make.epel7.mingw.tokyocoin.chroot.sh: creates a CentOS7-based mock(1) chroot suitable for building Windows binaries and deploys tokyocoin sources into it 
