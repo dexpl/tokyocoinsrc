@@ -26,7 +26,6 @@ LIBPATHS= \
  -L"$(DEPSDIR)/boost_1_55_0/stage/lib" \
  -L"$(DEPSDIR)/db-6.0.20/build_unix" \
  -L"$(DEPSDIR)/openssl-1.0.1f" \
- -L"$(DEPSDIR)/sys-root/mingw/bin" \
  -L"$(DEPSDIR)/sys-root/mingw/lib"
 
 LIBS= \
@@ -44,6 +43,9 @@ DEFS=-D_MT -DWIN32 -D_WINDOWS -DBOOST_THREAD_USE_LIB -DBOOST_SPIRIT_THREADSAFE
 DEBUGFLAGS=-g
 CFLAGS=-O3 -msse2 -w -Wall -Wextra -Wno-ignored-qualifiers -Wformat -Wformat-security -Wno-unused-parameter $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
 LDFLAGS=-Wl,--dynamicbase -Wl,--nxcompat -static-libgcc -static-libstdc++
+ifdef STATIC
+	LDFLAGS += -static
+endif
 
 ifndef USE_UPNP
 	override USE_UPNP = -
