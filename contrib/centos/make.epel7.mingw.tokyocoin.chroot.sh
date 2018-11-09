@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# Legacy:
-#tc=$(rpm -E %_srcrpmdir)/tokyocoin-1.1-4.fc29.src.rpm
-#basedir=${HOME}/projects/tc.mingw
-#mock="mock --config-opts=basedir=${basedir} -r ${chrootconf}"
-#[ -d "${basedir}" ] || mkdir -p "${basedir}"
-#${mock} --chroot "chmod +x ${srcbasedir}/leveldb/build_detect_platform"
-#${mock} --chroot "rpm -ihv /$(basename ${tc})"
-#${mock} --chroot 'rpmbuild -bp --nodeps $(rpm -E %_specdir/tokyocoin.spec)'
-#srcbasedir=$(${mock} --chroot 'rpm -E %_builddir')/tokyocoinsrc-1.1/src/
-#[ -f "${makefile}" ] && ${mock} --copyin "${makefile}" ${srcbasedir}
-
 set -e
 
 mydir="$(dirname "$(readlink -f "${0}")")"
