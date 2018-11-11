@@ -27,4 +27,4 @@ git archive --format=tar ${gitbranch} | tar -xC "${archivedir}"
 ${mock} --copyin "${archivedir}" /
 ${mock} --install ${deps}
 echo ${mock}
-${mock} --chroot "cd ${chrootsrcdir}; make -f ${makefile} USE_UPNP=-; make -f ${makefile} USE_UPNP=- STATIC=1"
+${mock} --chroot "make -C ${chrootsrcdir} -f ${makefile} USE_UPNP=-; make -C ${chrootsrcdir} -f ${makefile} USE_UPNP=- STATIC=1"
