@@ -909,7 +909,7 @@ uint64_t Win32Env::NowMicros()
 static Status CreateDirInner( const std::string& dirname )
 {
     Status sRet;
-    DWORD attr = ::GetFileAttributes(dirname.c_str());
+    DWORD attr = ::GetFileAttributesA(dirname.c_str());
     if (attr == INVALID_FILE_ATTRIBUTES) { // doesn't exist:
       std::size_t slash = dirname.find_last_of("\\");
       if (slash != std::string::npos){
