@@ -1,0 +1,98 @@
+diff -up ./src/leveldb/Makefile.orig ./src/leveldb/Makefile
+--- ./src/leveldb/Makefile.orig	2018-11-27 16:02:56.097000000 +0300
++++ ./src/leveldb/Makefile	2018-11-27 16:03:05.873000000 +0300
+@@ -22,6 +22,8 @@ include build_config.mk
+ 
+ CFLAGS += -I. -I./include $(PLATFORM_CCFLAGS) $(OPT)
+ CXXFLAGS += -I. -I./include $(PLATFORM_CXXFLAGS) $(OPT)
++CC=$(CROSS)gcc
++CXX=$(CROSS)g++
+ 
+ LDFLAGS += $(PLATFORM_LDFLAGS)
+ LIBS += $(PLATFORM_LIBS)
+diff -up ./src/makefile.mingw.orig ./src/makefile.mingw
+--- ./src/makefile.mingw.orig	2018-11-27 15:54:20.940000000 +0300
++++ ./src/makefile.mingw	2018-11-27 16:01:47.754000000 +0300
+@@ -2,27 +2,24 @@
+ # Distributed under the MIT/X11 software license, see the accompanying
+ # file COPYING or http://www.opensource.org/licenses/mit-license.php.
+ 
+-USE_LEVELDB:=0
+-CC=gcc
+-
++USE_LEVELDB:=1
++CC=$(CROSS)gcc
++CXX=$(CROSS)g++
+ 
++USE_ASM:=1
+ USE_IPV6:=1
+ USE_SSE2:=1
+ 
+-BOOST_SUFFIX?=-mgw49-mt-s-1_57
++BOOST_SUFFIX?=-mt
++BOOST_THREAD_LIB_SUFFIX?=_win32-mt
+ 
+ INCLUDEPATHS= \
+  -I"$(CURDIR)" \
+- -I"/c/deps/boost_1_57_0" \
+- -I"/c/deps" \
+- -I"/c/deps/db-6.0.20/build_unix" \
+- -I"/c/deps/openssl-1.0.2/include"
+- 
++ -I"${HOME}/db-6.0.20/build_unix" \
++
+ LIBPATHS= \
+  -L"$(CURDIR)/leveldb" \
+- -L"/c/deps/boost_1_57_0/stage/lib" \
+- -L"/c/deps/db-6.0.20/build_unix" \
+- -L"/c/deps/openssl-1.0.2"
++ -L"${HOME}/db-6.0.20/build_unix" \
+ 
+ LIBS= \
+   -l leveldb \
+@@ -30,11 +27,14 @@ LIBS= \
+   -l boost_system$(BOOST_SUFFIX) \
+   -l boost_filesystem$(BOOST_SUFFIX) \
+   -l boost_program_options$(BOOST_SUFFIX) \
+-  -l boost_thread$(BOOST_SUFFIX) \
++  -l boost_thread$(BOOST_THREAD_LIB_SUFFIX) \
+   -l boost_chrono$(BOOST_SUFFIX) \
+   -l db_cxx \
+   -l ssl \
+-  -l crypto
++  -l crypto \
++  -l z \
++  -l pthread
++
+ 
+ xOPT_LEVEL=-O2
+ ifeq (${USE_O3}, 1)
+@@ -105,7 +105,7 @@ DEFS += $(addprefix -I,$(CURDIR)/leveldb
+ DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
+ OBJS += obj/txdb-leveldb.o
+ leveldb/libleveldb.a:
+-	cd leveldb;TARGET_OS=NATIVE_WINDOWS make libleveldb.a libmemenv.a;; cd ..
++	cd leveldb; TARGET_OS=NATIVE_WINDOWS make CROSS=i686-w64-mingw32.static- libleveldb.a libmemenv.a; cd ..
+ obj/txdb-leveldb.o: leveldb/libleveldb.a
+ else
+ OBJS += obj/txdb-bdb.o
+@@ -148,14 +148,14 @@ endif
+ 
+ 
+ obj/%.o: %.cpp $(HEADERS)
+-	g++ -c $(CFLAGS) -o $@ $<
++	$(CXX) -c $(CFLAGS) -o $@ $<
+ 
+ novacoind.exe: $(OBJS:obj/%=obj/%)
+-	g++ $(CFLAGS) $(LDFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
++	$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
+ 
+ clean:
+-	-del /Q novacoind.exe
+-	-del /Q obj\*
+-	-del /Q crypto\scrypt\asm\obj\*
++	-rm novacoind.exe
++	-rm obj\*
++	-rm crypto\scrypt\asm\obj\*
+ 
+ FORCE:
