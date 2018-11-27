@@ -1,18 +1,18 @@
 diff -up ./src/leveldb/Makefile.orig ./src/leveldb/Makefile
 --- ./src/leveldb/Makefile.orig	2018-11-27 16:02:56.097000000 +0300
-+++ ./src/leveldb/Makefile	2018-11-27 16:03:05.873000000 +0300
++++ ./src/leveldb/Makefile	2018-11-27 16:05:47.491000000 +0300
 @@ -22,6 +22,8 @@ include build_config.mk
  
  CFLAGS += -I. -I./include $(PLATFORM_CCFLAGS) $(OPT)
  CXXFLAGS += -I. -I./include $(PLATFORM_CXXFLAGS) $(OPT)
-+CC=$(CROSS)gcc
-+CXX=$(CROSS)g++
++CC=$(CROSS)-gcc
++CXX=$(CROSS)-g++
  
  LDFLAGS += $(PLATFORM_LDFLAGS)
  LIBS += $(PLATFORM_LIBS)
 diff -up ./src/makefile.mingw.orig ./src/makefile.mingw
 --- ./src/makefile.mingw.orig	2018-11-27 15:54:20.940000000 +0300
-+++ ./src/makefile.mingw	2018-11-27 16:01:47.754000000 +0300
++++ ./src/makefile.mingw	2018-11-27 16:05:36.760000000 +0300
 @@ -2,27 +2,24 @@
  # Distributed under the MIT/X11 software license, see the accompanying
  # file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -21,8 +21,8 @@ diff -up ./src/makefile.mingw.orig ./src/makefile.mingw
 -CC=gcc
 -
 +USE_LEVELDB:=1
-+CC=$(CROSS)gcc
-+CXX=$(CROSS)g++
++CC=$(CROSS)-gcc
++CXX=$(CROSS)-g++
  
 +USE_ASM:=1
  USE_IPV6:=1
