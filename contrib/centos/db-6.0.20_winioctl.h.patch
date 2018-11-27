@@ -1,0 +1,12 @@
+diff -up ./src/dbinc/win_db.h.orig ./src/dbinc/win_db.h
+--- ./src/dbinc/win_db.h.orig	2018-11-27 15:40:41.812000000 +0300
++++ ./src/dbinc/win_db.h	2018-11-27 15:41:07.639000000 +0300
+@@ -46,7 +46,7 @@
+ #include <windows.h>
+ #include <winsock2.h>
+ #ifndef DB_WINCE
+-#include <WinIoCtl.h>
++#include <winioctl.h>
+ #endif
+ 
+ #ifdef HAVE_GETADDRINFO
